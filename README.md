@@ -27,3 +27,10 @@ sort.Sort(filesort.FileSizeReverseSort{allFiles})
 
 fmt.Printf("MtimeSizeSort: %+v\n", allFiles)
 ```
+
+Or you can do:
+
+```go
+var files Files = Files{ "file1", "file2", "file3" }
+files.Sort()
+```
