@@ -21,9 +21,7 @@ package filesort
 	sort.Sort(FileSizeReverseSort{allFiles})
 	fmt.Printf("MtimeSizeSort: %+v\n", allFiles)
 */
-
 import "os"
-import "path/filepath"
 import "sort"
 
 type Files []string
@@ -31,6 +29,8 @@ type Files []string
 func (self Files) Len() int           { return len(self) }
 func (self Files) Less(i, j int) bool { return self[i] < self[j] }
 func (self Files) Swap(i, j int)      { self[i], self[j] = self[j], self[i] }
+
+func (files Files) Sort() { sort.Sort(files) }
 
 type FileSort struct{ Files }
 
