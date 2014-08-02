@@ -12,18 +12,18 @@ filepath.Walk("foo", func(path string, info os.FileInfo, err error) error {
 
 fmt.Printf("Original: %+v\n", allFiles)
 
-sort.Sort(filesort.FileSort{allFiles})
+sort.Sort(filesort.DefaultSort{allFiles}) // by names
 fmt.Printf("Default Sort: %+v\n", allFiles)
 
-sort.Sort(filesort.FileMtimeSort{allFiles})
+sort.Sort(filesort.MtimeSort{allFiles})
 
 fmt.Printf("MtimeSort: %+v\n", allFiles)
 
-sort.Sort(filesort.FileMtimeReverseSort{allFiles})
+sort.Sort(filesort.MtimeReverseSort{allFiles})
 
 fmt.Printf("MtimeReverseSort: %+v\n", allFiles)
 
-sort.Sort(filesort.FileSizeReverseSort{allFiles})
+sort.Sort(filesort.SizeReverseSort{allFiles})
 
 fmt.Printf("MtimeSizeSort: %+v\n", allFiles)
 ```

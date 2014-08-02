@@ -12,13 +12,13 @@ package filesort
 	// sort.Sort(Files(allFiles))
 	fmt.Printf("Original: %+v\n", allFiles)
 
-	sort.Sort(FileMtimeSort{allFiles})
+	sort.Sort(MtimeSort{allFiles})
 	fmt.Printf("MtimeSort: %+v\n", allFiles)
 
-	sort.Sort(FileMtimeReverseSort{allFiles})
+	sort.Sort(MtimeReverseSort{allFiles})
 	fmt.Printf("MtimeReverseSort: %+v\n", allFiles)
 
-	sort.Sort(FileSizeReverseSort{allFiles})
+	sort.Sort(SizeReverseSort{allFiles})
 	fmt.Printf("MtimeSizeSort: %+v\n", allFiles)
 */
 import "os"
@@ -32,16 +32,16 @@ func (self Files) Swap(i, j int)      { self[i], self[j] = self[j], self[i] }
 
 func (files Files) Sort() { sort.Sort(files) }
 
-type FileSort struct{ Files }
+type DefaultSort struct{ Files }
 
-func (self FileSort) Less(i, j int) bool { return self.Files[i] < self.Files[j] }
+func (self DefaultSort) Less(i, j int) bool { return self.Files[i] < self.Files[j] }
 
 /*
-FileMtimeSort sort files From older to newer.
+MtimeSort sort files From older to newer.
 */
-type FileMtimeSort struct{ Files }
+type MtimeSort struct{ Files }
 
-func (self FileMtimeSort) Less(i, j int) bool {
+func (self MtimeSort) Less(i, j int) bool {
 	info_i, _ := os.Stat(self.Files[i])
 	info_j, _ := os.Stat(self.Files[j])
 	return info_i.ModTime().UnixNano() < info_j.ModTime().UnixNano()
@@ -50,25 +50,25 @@ func (self FileMtimeSort) Less(i, j int) bool {
 /*
 From older files to newer files.
 */
-type FileMtimeReverseSort struct{ Files }
+type MtimeReverseSort struct{ Files }
 
-func (self FileMtimeReverseSort) Less(i, j int) bool {
+func (self MtimeReverseSort) Less(i, j int) bool {
 	info_i, _ := os.Stat(self.Files[i])
 	info_j, _ := os.Stat(self.Files[j])
 	return info_i.ModTime().UnixNano() > info_j.ModTime().UnixNano()
 }
 
-type FileSizeSort struct{ Files }
+type SizeSort struct{ Files }
 
-func (self FileSizeSort) Less(i, j int) bool {
+func (self SizeSort) Less(i, j int) bool {
 	info_i, _ := os.Stat(self.Files[i])
 	info_j, _ := os.Stat(self.Files[j])
 	return info_i.Size() < info_j.Size()
 }
 
-type FileSizeReverseSort struct{ Files }
+type SizeReverseSort struct{ Files }
 
-func (self FileSizeReverseSort) Less(i, j int) bool {
+func (self SizeReverseSort) Less(i, j int) bool {
 	info_i, _ := os.Stat(self.Files[i])
 	info_j, _ := os.Stat(self.Files[j])
 	return info_i.Size() > info_j.Size()
